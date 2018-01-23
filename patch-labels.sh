@@ -31,7 +31,7 @@ for label in ${combinedlabels}; do
     minccalc -labels -unsigned -byte -expression "(A[0]+A[1])*${label}" ${tmpdir}/${label}_old.mnc ${tmpdir}/${label}_patch.mnc ${tmpdir}/${label}_new.mnc
 done
 
-mincmath -add ${tmpdir}/*_new.mnc ${output}
+mincmath -labels -unsigned -byte -add ${tmpdir}/*_new.mnc ${output}
 
 
 rm -rf ${tmpdir}
