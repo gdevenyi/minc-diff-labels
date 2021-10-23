@@ -3,6 +3,9 @@ Idea for diffing label sets in MINC.
 
 Use the extra dimensionality to store labels as a "time" dimension. This could be an arbitrary dimension name, but time allows viewing in Display/register.
 
+
+## How this tool works:
+
 Steps to compute a diff:
 
 1. Use minclookup to split up two label sets to diff. One file per label, all values 1
