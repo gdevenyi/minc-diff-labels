@@ -3,6 +3,18 @@ Idea for diffing label sets in MINC.
 
 Use the extra dimensionality to store labels as a "time" dimension. This could be an arbitrary dimension name, but time allows viewing in Display/register.
 
+## Usage
+
+Create a diff:
+```sh
+$ diff-labels.sh old.mnc new.mnc diff.mnc
+```
+
+Apply a diff
+```sh
+$ patch-labels.sh old.mnc diff.mnc new.mnc
+```
+
 
 ## How this tool works:
 
