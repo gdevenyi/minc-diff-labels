@@ -32,10 +32,10 @@ mincresample -unsigned -int -keep -near -labels $(mincbbox -mincresample ${tmpdi
     ${tmpdir}/label_flatten.mnc ${tmpdir}/label-crop.mnc
 minccalc -expression "1" ${tmpdir}/label-crop.mnc ${tmpdir}/bounding.mnc
 
-#Labelled layers
+# Labelled layers
 for label in ${patchlabels}; do
 echo """
-create_verify_image  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_t_${label}.mpc \
+create_verify_image -transpose  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_t_${label}.mpc \
     -width 3840 -height 1600 -autocols 10 -autocol_planes t \
     -bounding_volume ${tmpdir}/bounding.mnc \
     -row ${image} color:gray \
@@ -44,7 +44,7 @@ create_verify_image  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_t_${labe
     -norepeattitle
 
 
-create_verify_image  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_s_${label}.mpc \
+create_verify_image -transpose  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_s_${label}.mpc \
     -width 3840 -height 1600 -autocols 10 -autocol_planes s \
     -bounding_volume ${tmpdir}/bounding.mnc \
     -row ${image} color:gray \
@@ -52,7 +52,7 @@ create_verify_image  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_s_${labe
     title:\"Label ${label}\" \
     -norepeattitle
 
-create_verify_image  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_c_${label}.mpc \
+create_verify_image -transpose  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_c_${label}.mpc \
     -width 3840 -height 1600 -autocols 10 -autocol_planes c \
     -bounding_volume ${tmpdir}/bounding.mnc \
     -row ${image} color:gray \
@@ -63,17 +63,17 @@ create_verify_image  -range_floor 0 ${tmpdir}/$(basename ${image} .mnc)_c_${labe
 done | parallel -j $(nproc)
 
 convert -background black -strip -interlace Plane -sampling-factor 4:2:0 -quality "95%"  \
-    -append -trim \
+    +append -trim \
     $(for label in ${patchlabels}; do echo ${tmpdir}/$(basename ${image} .mnc)_t_${label}.mpc; done) \
     ${output}_t.jpg
 
 convert -background black -strip -interlace Plane -sampling-factor 4:2:0 -quality "95%"  \
-    -append -trim \
+    +append -trim \
     $(for label in ${patchlabels}; do echo ${tmpdir}/$(basename ${image} .mnc)_s_${label}.mpc; done) \
     ${output}_s.jpg
 
 convert -background black -strip -interlace Plane -sampling-factor 4:2:0 -quality "95%"  \
-    -append -trim \
+    +append -trim \
     $(for label in ${patchlabels}; do echo ${tmpdir}/$(basename ${image} .mnc)_c_${label}.mpc; done) \
     ${output}_c.jpg
 
