@@ -1,0 +1,12 @@
+[project]
+name = "minc-diff-labels"
+version = "0.1.0"
+description = "Format-generic per-label diff/patch for segmentation volumes (NIfTI/NRRD/MINC) via SimpleITK"
+requires-python = ">=3.10"
+dependencies = [
+    "simpleitk>=2.4",
+    "numpy>=1.24",
+]
+# Scripts are run directly (drop-in replacements for the old .sh):
+#   uv run ./diff-labels.py old new diff.nii.gz
+#   uv run ./patch-labels.py old diff.nii.gz recon.mnc
