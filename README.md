@@ -3,16 +3,34 @@ Idea for diffing label sets in MINC.
 
 Use the extra dimensionality to store labels as a "time" dimension. This could be an arbitrary dimension name, but time allows viewing in Display/register.
 
+## Requirements
+
+- [minc-toolkit-v2](https://github.com/BIC-MNI/minc-toolkit-v2) (`minclookup`,
+  `minccalc`, `mincstats`, `mincconcat`, `mincreshape`, `print_all_labels`, ...)
+- `awk`
+- Visualization only: `create_verify_image`, [GNU parallel](https://www.gnu.org/software/parallel/),
+  ImageMagick (`convert`)
+
+Each script validates its arguments and checks that required commands are on
+`PATH`; run with `--help` for usage.
+
 ## Usage
 
 Create a diff:
 ```sh
 $ diff-labels.sh old.mnc new.mnc diff.mnc
 ```
+Identical inputs produce no output and exit cleanly with a message.
 
-Apply a diff
+Apply a diff:
 ```sh
 $ patch-labels.sh old.mnc diff.mnc new.mnc
+```
+
+Visualize a diff/label set (writes `<prefix>_t.jpg`, `_s.jpg`, `_c.jpg` for the
+transverse/sagittal/coronal planes):
+```sh
+$ minc-diff-labels-visualize.sh anatomical.mnc diff.mnc qc_prefix
 ```
 
 
